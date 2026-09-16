@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ---------------- Mobile 4:6 Ratio Container ---------------- */
+        .app-container {
+            width: 100%;
+            max-width: 380px;
+            aspect-ratio: 4 / 6; /* Portrait 4*6 Ratio */
+            max-height: 90vh;
+            max-width: 90vw;
+            background-color: #faf9f0;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        /* ---------------- အပိုင်း (၁) - ပထမ Page ---------------- */
+        #first-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #000;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .heart {
+            background-color: red;
+            display: inline-block;
+            height: 70px;
+            margin: 0 10px;
+            position: relative;
+            transform: rotate(-45deg);
+            width: 70px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: red;
+            border-radius: 50%;
+            height: 70px;
+            position: absolute;
+            width: 70px;
+        }
+
+        .heart:before { top: -35px; left: 0; }
+        .heart:after { left: 35px; top: 0; }
+
+        .heart:hover {
+            transform: rotate(-45deg) scale(1.1);
+        }
+
+        .click-text {
+            margin-top: 50px;
+            padding: 6px 16px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #333;
+            box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ccc;
+        }
+
+        /* ---------------- ဒုတိယ မှ ဆဋ္ဌမ Page များ ---------------- */
+        #second-screen, #third-screen, #fourth-screen, #fifth-screen, #sixth-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+        }
+
+        .bear-img {
+            width: 55%;
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 20px;
+            object-fit: contain;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .green-btn {
+            background-color: #72db85;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+            white-space: nowrap;
+        }
+
+        #run-btn {
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        #sixth-screen h1 {
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        /* ---------------- မီးပန်း Canvas Style ---------------- */
+        #fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- မီးပန်း Background Canvas -->
+    <canvas id="fireworks"></canvas>
+
+    <!-- Mobile Screen ထဲ Fit ဖြစ်စေမည့် 4:6 Container -->
+    <div class="app-container">
+
+        <!-- အပိုင်း (၁) - ပထမ Page -->
+        <div id="first-screen">
+            <h1>Hello,ရည်းစားဟောင်းလေး </h1>
+            <div class="heart" onclick="openProposal()"></div>
+            <div class="click-text">click the heart</div>
+        </div>
+
+        <!-- အပိုင်း (၂) - ဒုတိယ Page -->
+        <div id="second-screen">
+            <h1>ပြန်ချစ်ကြည့်ကြမလား?</h1>
+            <img src="dudu.png" alt="Bear" class="bear-img">
+            
+            <div class="btn-container">
+                <button id="btn1" class="green-btn" onclick="goToThirdPage()">ချစ်မယ်လေ</button>
+                <button id="btn2" class="green-btn" onclick="clickBtn('btn2', 'btn1')">မချစ်ပါဘူး</button>
+            </div>
+        </div>
+
+        <!-- အပိုင်း (၃) - တတိယ Page -->
+        <div id="third-screen">
+            <h1>ဒီကသတိရနေတာ သိရဲ့လား</h1>
+            <img src="dudu2.png" alt="Bear" class="bear-img">
+            
+            <div class="btn-container">
+                <button class="green-btn" onclick="goToFourthPage()">တူတူပါပဲ</button>
+                <button id="run-btn" class="green-btn" onclick="moveButton()">မယုံပါဘူး</button>
+            </div>
+        </div>
+
+        <!-- အပိုင်း (၄) - စတုတ္ထ Page -->
+        <div id="fourth-screen">
+            <h1>ပြန်တွဲကြမယ်လေနော် နော်..</h1>
+            <img src="dudu3.png" alt="Bear" class="bear-img">
+            
+            <div class="btn-container">
+                <button class="green-btn" onclick="goToFifthPage()">တွဲကြမယ်လေ</button>
+                <button id="hide-btn" class="green-btn" onclick="hideButton()">မတွဲချင်ပါဘူး</button>
+            </div>
+        </div>
+
+        <!-- အပိုင်း (၅) - ပဉ္စမ Page -->
+        <div id="fifth-screen">
+            <h1>ဒါဆိုရည်းစားပြန်ဖြစ်ပြီးနော်</h1>
+            <h1>ကဲပြော ချစ်တယ်မလား</h1>            
+            <img src="dudu4.png" alt="Bear" class="bear-img">
+            
+            <div class="btn-container">
+                <button class="green-btn" onclick="goToSixthPage()">ချစ်တာပေါ့</button>
+                <button class="green-btn" onclick="goToSixthPage()">မချစ်ပါဘူး</button>
+            </div>
+        </div>
+
+        <!-- အပိုင်း (၆) - ဆဋ္ဌမ Page -->
+        <div id="sixth-screen">
+            <img src="dudu5.png" alt="Bear" class="bear-img">
+            
+            <div class="btn-container">
+                <button class="green-btn">ချစ်တာပေါ့</button>
+            </div>
+
+            <h1>Yeah! ရည်းစားပြန်ဖြစ်ပြီးကွ</h1>
+            <p>make by ကိုနှံကောင်'s prduction</p>
+            <p>Miss U Arrputu"</p>        
+        </div>
+
+    </div>
+
+    <script>
+        let scale1 = 1;
+
+        function openProposal() {
+            document.getElementById("first-screen").style.display = "none";
+            document.getElementById("second-screen").style.display = "flex";
+        }
+
+        function goToThirdPage() {
+            document.getElementById("second-screen").style.display = "none";
+            document.getElementById("third-screen").style.display = "flex";
+        }
+
+        function goToFourthPage() {
+            document.getElementById("third-screen").style.display = "none";
+            document.getElementById("fourth-screen").style.display = "flex";
+        }
+
+        function goToFifthPage() {
+            document.getElementById("fourth-screen").style.display = "none";
+            document.getElementById("fifth-screen").style.display = "flex";
+        }
+
+        function goToSixthPage() {
+            document.getElementById("fifth-screen").style.display = "none";
+            document.getElementById("sixth-screen").style.display = "flex";
+            startFireworks();
+        }
+
+        function hideButton() {
+            document.getElementById("hide-btn").style.display = "none";
+        }
+
+        function clickBtn(clickedId, otherId) {
+            if (otherId === 'btn1') {
+                scale1 += 0.3;
+                document.getElementById('btn1').style.transform = `scale(${scale1})`;
+            }
+        }
+
+        /* Container ဘောင်အတွင်းမှာပဲ ခလုတ်ကို ရွှေ့ပေးမည့် Logic */
+        function moveButton() {
+            const btn = document.getElementById("run-btn");
+            const container = document.querySelector(".app-container");
+
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
+
+            const x = Math.random() * (containerWidth - btn.clientWidth - 20);
+            const y = Math.random() * (containerHeight - btn.clientHeight - 20);
+
+            btn.style.position = "absolute";
+            btn.style.left = `${Math.max(10, x)}px`;
+            btn.style.top = `${Math.max(10, y)}px`;
+        }
+
+        /* ---------------- Fireworks Script ---------------- */
+        const canvas = document.getElementById("fireworks");
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = Math.random() * 3 + 2;
+                this.velocity = {
+                    x: (Math.random() - 0.5) * 8,
+                    y: (Math.random() - 0.5) * 8
+                };
+                this.alpha = 1;
+                this.friction = 0.98;
+                this.gravity = 0.05;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            update() {
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.velocity.y += this.gravity;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= 0.012;
+            }
+        }
+
+        function createFirework(x, y) {
+            const colors = ["#ff4d4d", "#ffb380", "#ff66cc", "#72db85", "#ffd700", "#4da6ff"];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for (let i = 0; i < 40; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+
+        function animateFireworks() {
+            requestAnimationFrame(animateFireworks);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (Math.random() < 0.08) {
+                createFirework(
+                    Math.random() * canvas.width,
+                    Math.random() * (canvas.height * 0.7)
+                );
+            }
+
+            particles.forEach((particle, index) => {
+                if (particle.alpha > 0) {
+                    particle.update();
+                    particle.draw();
+                } else {
+                    particles.splice(index, 1);
+                }
+            });
+        }
+
+        function startFireworks() {
+            animateFireworks();
+        }
+    </script>
+
+</body>
+</html>
